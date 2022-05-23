@@ -31,3 +31,24 @@ fetch(url)
     console.log(error);
   });
 
+/* const url = "http://localhost:3000/api/products";
+const productSection = document.querySelector('.items');
+
+fetch(url)
+    .then((res) => res.json())
+    .then((res) => res.forEach(article => { 
+        console.log(article)                    
+        productSection.innerHTML += `
+            <a href="./product.html?id=${article._id}">
+                <article>
+                    <img src="${article.imageUrl}" alt="${article.altTxt}"/>
+                    <h3 class="productName">${article.name}</h3>
+                    <p class="productDescription">${article.description}</p>
+                </article>
+            </a>
+        `
+    }))
+    .catch(error => {
+        console.log(error);
+    });
+ */
