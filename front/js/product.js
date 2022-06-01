@@ -20,6 +20,8 @@ let nom = document.querySelector("#title");
 let price = document.querySelector("#price");
 // Variable description
 let descript = document.querySelector("#description");
+// Variable color
+let select = document.querySelector("#colors");
 
 //fonction fetch
 
@@ -32,7 +34,13 @@ fetch(`http://localhost:3000/api/products/${id}`)
     nom.innerHTML = kanap.name;
     price.innerHTML = kanap.price;
     descript.innerHTML = kanap.description;
+    kanap.colors.forEach(color => {
+      const option = document.createElement("option");
+      option.value = color;
+      option.textContent = color;
+      select.appendChild(option);
+    });
   })
-  .catch((error) => {
-    console.log(error);
-  });
+.catch((err) => console.log(err));
+
+
