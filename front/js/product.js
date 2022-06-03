@@ -28,6 +28,7 @@ let select = document.querySelector("#colors");
 fetch(`http://localhost:3000/api/products/${id}`)
   .then((res) => res.json())
   .then((kanap) => {
+    console.log(kanap);
     document.title = kanap.name;
     img.src = kanap.imageUrl;
     img.alt = kanap.altTxt;
@@ -45,9 +46,9 @@ fetch(`http://localhost:3000/api/products/${id}`)
 
   //fonction pour ajouter au panier
 
-  const selectColor = document.querySelector("#colors"); //
-  const quantity = document.querySelector("#quantity"); //
-  const addToCart = document.querySelector("#addToCart"); //
+  const selectColor = document.querySelector("#colors"); // 
+  const quantity = document.querySelector("#quantity"); // 
+  const addToCart = document.querySelector("#addToCart"); // 
   const cart = JSON.parse(localStorage.getItem('products')) || []; //
 
   addToCart.addEventListener('click', () => { 
@@ -60,6 +61,7 @@ fetch(`http://localhost:3000/api/products/${id}`)
     };
     cart.push(product); // ajout du produit au panier
     localStorage.setItem('products', JSON.stringify(cart)); // stockage du panier dans le localStorage
+    window.location.href = "cart.html"; // redirection vers la page cart.html
     console.log(cart); // affichage du panier dans la console
   });
 
