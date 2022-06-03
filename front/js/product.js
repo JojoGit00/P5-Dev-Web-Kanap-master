@@ -23,7 +23,7 @@ let descript = document.querySelector("#description");
 // Variable color
 let select = document.querySelector("#colors");
 
-//fonction fetch
+//fonction fetch pour récupérer les données du produit en fonction de son id dans la bdd
 
 fetch(`http://localhost:3000/api/products/${id}`)
   .then((res) => res.json())
@@ -41,6 +41,25 @@ fetch(`http://localhost:3000/api/products/${id}`)
       select.appendChild(option);
     });
   })
-.catch((err) => console.log(err));
+  .catch((err) => console.log(err));
 
+  //fonction pour ajouter au panier
+
+  const selectColor = document.querySelector("#colors"); //
+  const quantity = document.querySelector("#quantity"); //
+  const addToCart = document.querySelector("#addToCart"); //
+  const cart = JSON.parse(localStorage.getItem('products')) || []; //
+
+  addToCart.addEventListener('click', () => { 
+    const product = { 
+      id: id,
+      name: nom.innerHTML,
+      price: price.innerHTML,
+      quantity: quantity.value,
+      color: selectColor.value
+    };
+    cart.push(product); // ajout du produit au panier
+    localStorage.setItem('products', JSON.stringify(cart)); // stockage du panier dans le localStorage
+    console.log(cart); // affichage du panier dans la console
+  });
 
