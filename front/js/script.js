@@ -1,12 +1,12 @@
-const url = "http://localhost:3000/api/products";
-const productSection = document.querySelector(".items");
+const url = "http://localhost:3000/api/products"; // url de l'api
+const productSection = document.querySelector(".items"); // section des produits
 
-fetch(url)
-  .then((res) => res.json())
-  .then((art) => {
-    console.log(art);
+fetch(url)  // on récupère les données de l'api
+  .then((res) => res.json())  // on les transforme en json
+  .then((art) => {  // on les stock dans une variable
+    console.log(art);    // on les affiche dans la console
     const produit = art; // isolation de ma constanse produit issus de son appel a lAPI isolé sous le nom de 'art' = aux dif canapés
-    console.log(produit);
+    console.log(produit); // affichage de la variable produit
     produit.forEach((produit) => {
       // utilisation de foreach "boucle" pour aller chercher les éléments dont jaurai besoin de "CHAQUE ARTICLE"
       productSection.innerHTML += `  
