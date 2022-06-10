@@ -35,7 +35,7 @@ fetch(`http://localhost:3000/api/products/${id}`)
     nom.innerHTML = kanap.name;
     price.innerHTML = kanap.price;
     descript.innerHTML = kanap.description;
-    kanap.colors.forEach(color => {
+    kanap.colors.forEach((color) => {
       const option = document.createElement("option");
       option.value = color;
       option.textContent = color;
@@ -44,24 +44,24 @@ fetch(`http://localhost:3000/api/products/${id}`)
   })
   .catch((err) => console.log(err));
 
-  //fonction pour ajouter au panier
+//fonction pour ajouter au panier
 
-  const selectColor = document.querySelector("#colors"); // 
-  const quantity = document.querySelector("#quantity"); // 
-  const addToCart = document.querySelector("#addToCart"); // 
-  const cart = JSON.parse(localStorage.getItem('products')) || []; //
+const selectColor = document.querySelector("#colors"); //
+const quantity = document.querySelector("#quantity"); //
+const addToCart = document.querySelector("#addToCart"); //
+const cart = JSON.parse(localStorage.getItem("products")) || []; //
 
-  addToCart.addEventListener('click', () => { 
-    const product = { 
-      id: id,
-      name: nom.innerHTML,
-      price: price.innerHTML,
-      quantity: quantity.value,
-      color: selectColor.value
-    };
-    cart.push(product); // ajout du produit au panier
-    localStorage.setItem('products', JSON.stringify(cart)); // stockage du panier dans le localStorage
-    window.location.href = "cart.html"; // redirection vers la page cart.html
-    console.log(cart); // affichage du panier dans la console
-  });
-
+addToCart.addEventListener("click", () => {
+  const product = {
+    id: id,
+    name: nom.innerHTML,
+    price: price.innerHTML,
+    quantity: parseInt (quantity.value),
+    color: selectColor.value,
+    image : img.src,
+    alt : img.alt,
+  };
+  cart.push(product); // ajout du produit au panier
+  localStorage.setItem("products", JSON.stringify(cart)); // stockage du panier dans le localStorage
+  console.log(cart); // affichage du panier dans la console
+});
