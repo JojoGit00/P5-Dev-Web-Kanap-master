@@ -6,7 +6,7 @@ let totalQuantity = document.querySelector("#totalQuantity");
 let totalArticle = [];
 let totalOrder = [];
 
-// fonction pour afficher le panier
+// function for display the cart
 if (cartItems !== null) {
   productSection.innerHTML = "";
   cartItems.forEach((productLS) => {
