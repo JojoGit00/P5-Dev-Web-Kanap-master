@@ -13,6 +13,7 @@ if (cartItems !== null) {
     fetch("http://localhost:3000/api/products/" + `${productLS.id}`)
       .then((res) => res.json())
       .then((productAPi) => {
+        console.log(productAPi);
         productSection.innerHTML += `
                 <article class="cart__item" data-id=${productAPi.id}>
                     <div class="cart__item__img">
@@ -105,81 +106,75 @@ function updateCart(cartItem) {
   location.reload();
 }
 
-// fonction verifier le formulaire
+// formulaire
 
-const regexName = /^[a-zA-ZÀ-ÿ' -]+$/;
-const regexEmail = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
-const regexAddress = /^[a-zA-ZÀ-ÿ' -]+$/;
-const regexCity = /^[a-zA-ZÀ-ÿ' -]+$/;
+function formulaire() {
+  const regexName = /^[a-zA-ZÀ-ÿ' -]+$/;
+  const regexEmail = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
+  const regexAddress = /^[a-zA-ZÀ-ÿ' -]+$/;
+  const regexCity = /^[a-zA-ZÀ-ÿ' -]+$/;
 
+  const firstName = document.querySelector("#firstName");
+  const lastName = document.querySelector("#lastName");
+  const address = document.querySelector("#address");
+  const city = document.querySelector("#city");
+  const email = document.querySelector("#email");
 
-const firstName = document.querySelector("#firstName");
-const lastName = document.querySelector("#lastName");
-const address = document.querySelector("#address");
-const city = document.querySelector("#city");
-const email = document.querySelector("#email");
+  const firstNameError = document.getElementById("firstNameErrorMsg");
+  const lastNameError = document.getElementById("lastNameErrorMsg");
+  const addressError = document.getElementById("addressErrorMsg");
+  const cityError = document.getElementById("cityErrorMsg");
+  const emailError = document.getElementById("emailErrorMsg");
 
+  const order = document.getElementById("order");
 
-const firstNameError = document.getElementById("firstNameErrorMsg");
-const lastNameError = document.getElementById("lastNameErrorMsg");
-const addressError = document.getElementById("addressErrorMsg");
-const cityError = document.getElementById("cityErrorMsg");
-const emailError = document.getElementById("emailErrorMsg");
+  // fonction pour verifier le prenom
+  firstName.addEventListener("blur", (e) => {
+    if (firstName.value.match(regexName)) {
+      firstNameError.innerHTML = "";
+    } else {
+      firstNameError.innerHTML = "Veuillez entrer un prénom valide";
+    }
+  });
 
-const order = document.getElementById("order");
+  // fonction pour verifier le nom
+  lastName.addEventListener("blur", (e) => {
+    if (lastName.value.match(regexName)) {
+      lastNameError.innerHTML = "";
+    } else {
+      lastNameError.innerHTML = "Veuillez entrer un nom valide";
+    }
+  });
 
-// fonction pour verifier le prenom
-firstName.addEventListener("blur", (e) => {
-  if (firstName.value.match(regexName)) {
-    firstNameError.innerHTML = "";
-  } else {
-    firstNameError.innerHTML = "Veuillez entrer un prénom valide";
-  }
-});
+  // fonction pour verifier l'adresse
+  address.addEventListener("blur", (e) => {
+    if (address.value.match(regexAddress)) {
+      addressError.innerHTML = "";
+    } else {
+      addressError.innerHTML = "Veuillez entrer une adresse valide";
+    }
+  });
 
-// fonction pour verifier le nom
-lastName.addEventListener("blur", (e) => {
-  if (lastName.value.match(regexName)) {
-    lastNameError.innerHTML = "";
-  } else {
-    lastNameError.innerHTML = "Veuillez entrer un nom valide";
-  }
-}
-);
+  // fonction pour verifier la ville
+  city.addEventListener("blur", (e) => {
+    if (city.value.match(regexCity)) {
+      cityError.innerHTML = "";
+    } else {
+      cityError.innerHTML = "Veuillez entrer une ville valide";
+    }
+  });
 
-// fonction pour verifier l'adresse
-address.addEventListener("blur", (e) => {
-  if (address.value.match(regexAddress)) {
-    addressError.innerHTML = "";
-  } else {
-    addressError.innerHTML = "Veuillez entrer une adresse valide";
-  }
-}
-);
+  // fonction pour verifier l'email
+  email.addEventListener("blur", (e) => {
+    if (email.value.match(regexEmail)) {
+      emailError.innerHTML = "";
+    } else {
+      emailError.innerHTML = "Veuillez entrer un email valide";
+    }
+  });
 
-// fonction pour verifier la ville
-city.addEventListener("blur", (e) => {
-  if (city.value.match(regexCity)) {
-    cityError.innerHTML = "";
-  } else {
-    cityError.innerHTML = "Veuillez entrer une ville valide";
-  }
-}
-);
-
-// fonction pour verifier l'email
-email.addEventListener("blur", (e) => {
-  if (email.value.match(regexEmail)) {
-    emailError.innerHTML = "";
-  } else {
-    emailError.innerHTML = "Veuillez entrer un email valide";
-  }
-}
-); 
-
-// fonction pour verifier le formulaire
-if (order) {
-  order.addEventListener("click", (e) => {
+  order.addEventListener("click", (event) => {
+    event.preventDefault();
     if (
       firstName.value.match(regexName) &&
       lastName.value.match(regexName) &&
@@ -187,22 +182,45 @@ if (order) {
       city.value.match(regexCity) &&
       email.value.match(regexEmail)
     ) {
-      e.preventDefault();
-      const order = {
+      orderId();
+    }
+  });
+
+  function orderId() {
+    let purchase = [];
+    for (let productPurchase of cartItems) {
+      purchase.push(productPurchase.id);
+    }
+
+    // objet contact constituer des données du formulaire pour ensuite les mettres dans le tableau de produits
+    const client = {
+      products: purchase,
+      contact: {
         firstName: firstName.value,
         lastName: lastName.value,
         address: address.value,
         city: city.value,
         email: email.value,
-      }
-      localStorage.setItem("order", JSON.stringify(order));
-      window.location.href = "confirmation.html";
-    } else {
-      e.preventDefault();
-    }
+      },
+    };
+
+    // Requête POST via Fetch pour envoyer les informations au back end
+    fetch("http://localhost:3000/api/products/order", {
+      method: "POST",
+      // transforme l'objet client en contenu JSON
+      body: JSON.stringify(client),
+      headers: { "Content-Type": "application/json" },
+    })
+      // On envoie les données saisies du client et ses produits
+      .then((res) => res.json())
+      .then((value) => {
+        // Permet d'effacer ce qui est stocké dans le localStorage
+        localStorage.clear();
+        window.location.href = `../html/confirmation.html?id=${value.orderId}`;
+      })
+      .catch((err) => console.log(err));
   }
-  );
 }
 
-
-  
+// fonction formulaire pour le panier
+formulaire();
