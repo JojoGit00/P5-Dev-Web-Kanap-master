@@ -1,4 +1,4 @@
-// Récupération de l'orderId de la page cart pour la page confirmation
+// retrieval of the orderId
 const commande = new URLSearchParams(window.location.search);
 const id = commande.get("id");
 

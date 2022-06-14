@@ -1,10 +1,13 @@
 const url = "http://localhost:3000/api/products"; // url de l'api
 const productSection = document.querySelector(".items"); // section des produits
 
-fetch(url)  // on récupère les données de l'api
-  .then((res) => res.json())  // on les transforme en json
-  .then((art) => {  // on les stock dans une variable
-    console.log(art);    // on les affiche dans la console
+
+// on crée un nouvel élément article pour chaque article de l'API et on l'ajoute à la section des produits
+
+fetch(url) // on récupère les données de l'api
+  .then((res) => res.json()) // on les transforme en json
+  .then((art) => {
+    console.log(art); // on les affiche dans la console
     const produit = art; // isolation de ma constanse produit issus de son appel a lAPI isolé sous le nom de 'art' = aux dif canapés
     console.log(produit); // affichage de la variable produit
     produit.forEach((produit) => {
@@ -18,15 +21,7 @@ fetch(url)  // on récupère les données de l'api
           </article>
       </a>`;
     });
-    /* J'écrit ici la suite
-        Je me rend a ID Item cf index.html
-        utilisation de fonction inner dans la section 
-        copie du code html 
-        remplacement des morceaux de code avec les éléments dont j'ai besoin.
-        donc Si ajout de d'article a la base de lApi celui ci sera directement intégré !!
-          */
   })
-
   .catch((error) => {
     console.log(error);
   });

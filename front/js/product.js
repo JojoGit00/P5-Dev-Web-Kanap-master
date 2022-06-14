@@ -23,7 +23,7 @@ let descript = document.querySelector("#description");
 // Variable color
 let select = document.querySelector("#colors");
 
-//fonction fetch pour récupérer les données du produit en fonction de son id dans la bdd
+//fetch pour récupérer les données du produit en fonction de son id
 
 fetch(`http://localhost:3000/api/products/${id}`)
   .then((res) => res.json())
@@ -44,6 +44,8 @@ fetch(`http://localhost:3000/api/products/${id}`)
   })
   .catch((err) => console.log(err));
 
+
+
 //fonction pour ajouter au panier
 
 const selectColor = document.querySelector("#colors"); //
@@ -52,16 +54,28 @@ const addToCart = document.querySelector("#addToCart"); //
 const cart = JSON.parse(localStorage.getItem("products")) || []; //
 
 addToCart.addEventListener("click", () => {
-  const product = {
+
+  const product = { // création d'un objet product
     id: id,
     name: nom.innerHTML,
     price: price.innerHTML,
-    quantity: parseInt (quantity.value),
+    quantity: parseInt(quantity.value),
     color: selectColor.value,
-    image : img.src,
-    alt : img.alt,
+    image: img.src,
+    alt: img.alt,
   };
-  cart.push(product); // ajout du produit au panier
-  localStorage.setItem("products", JSON.stringify(cart)); // stockage du panier dans le localStorage
-  console.log(cart); // affichage du panier dans la console
+  // si le produit existe déjà dans le panier, on augmente la quantité
+  if (cart.find((item) => item.id === product.id)) { 
+    cart.forEach((item) => {
+      if (item.id === product.id) {
+        item.quantity += product.quantity;
+      }
+    });
+    // sinon on ajoute le produit au panier
+  } else {
+    cart.push(product);
+  }
+  localStorage.setItem("products", JSON.stringify(cart));
+  console.log(cart);
 });
+

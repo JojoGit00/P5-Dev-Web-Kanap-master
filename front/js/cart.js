@@ -38,13 +38,15 @@ if (cartItems !== null) {
                     </div>
                 </article>
             `;
+
+
         const changeQuantity = document.querySelectorAll(".itemQuantity");
         let notification = document.querySelectorAll(
           ".cart__item__content__settings__quantity"
         );
         const regexQuantity = /^(100|[1-9][0-9]?)$/;
-
-        changeQuantity.forEach((input, i) => {
+        
+        changeQuantity.forEach((input, i) => { 
           input.addEventListener("change", (e) => {
             if (input.value.match(regexQuantity)) {
               const finalQuantity = parseInt(e.target.value);
