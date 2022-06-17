@@ -7,7 +7,13 @@ let totalArticle = [];
 let totalOrder = [];
 
 // function for display the cart
-if (cartItems !== null) {
+
+
+function displayCart() {
+if (cartItems === null || cartItems == 0) {
+  const emptyCart = `<p>Votre panier est vide</p>`;
+  productSection.innerHTML = emptyCart;
+}else {
   productSection.innerHTML = "";
   cartItems.forEach((productLS) => {
     fetch("http://localhost:3000/api/products/" + `${productLS.id}`)
@@ -96,6 +102,9 @@ if (cartItems !== null) {
       });
   });
 }
+}
+displayCart();
+
 
 // fonction pour mettre a jour le panier
 
