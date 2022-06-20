@@ -47,9 +47,6 @@ if (cartItems === null || cartItems == 0) {
 
 
         const changeQuantity = document.querySelectorAll(".itemQuantity");
-        let notification = document.querySelectorAll(
-          ".cart__item__content__settings__quantity"
-        );
         const regexQuantity = /^(100|[1-9][0-9]?)$/;
         
         changeQuantity.forEach((input, i) => { 
