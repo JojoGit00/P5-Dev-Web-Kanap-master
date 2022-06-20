@@ -58,13 +58,7 @@ if (cartItems === null || cartItems == 0) {
               const finalQuantity = parseInt(e.target.value);
               cartItems[i].quantity = finalQuantity;
               updateCart(cartItems);
-            } else {
-              let myItem = cartItems.find(
-                (item) =>
-                  item.color === cartItems[i].color &&
-                  item.id === cartItems[i].id
-              );
-            }
+            } 
           });
         });
         //Calcul prix total
